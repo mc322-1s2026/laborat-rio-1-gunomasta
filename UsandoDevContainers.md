@@ -48,8 +48,10 @@ O VS Code vai baixar a imagem do Docker (pode demorar na primeira vez) e montar 
 
 Para sair do Dev Container e voltar a usar o VS Code normalmente no seu computador:
 
-1. Clique no canto inferior esquerdo do VS Code, onde aparece o nome do container (ou um símbolo verde).
-2. Selecione a opção **"Close Remote Connection"** (Fechar conexão remota) ou **"Reopen Folder Locally"** (Reabrir pasta localmente).
-3. O VS Code fechará o container e abrirá a pasta normalmente no seu computador.
+Clique no canto inferior esquerdo do VS Code, onde aparece o nome do container (ou um símbolo verde).
+
+Selecione a opção **"Close Remote Connection"** (Fechar conexão remota) ou **"Reopen Folder Locally"** (Reabrir pasta localmente).
+
+O VS Code fechará o container e abrirá a pasta normalmente no seu computador.
 
 Você também pode usar a paleta de comandos (`Ctrl+Shift+P`), digitar `Dev Containers: Close Remote Connection` e selecionar essa opção.

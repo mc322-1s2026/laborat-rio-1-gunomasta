@@ -9,6 +9,9 @@ public class User {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username não pode ser vazio.");
         }
+        if (!email.matches("*" + "@" + "*" + ".com")) {
+            throw new IllegalArgumentException("O email nao segue a formatacao desejada.");        
+        }
         this.username = username;
         this.email = email;
     }
