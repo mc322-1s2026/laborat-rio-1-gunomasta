@@ -1,5 +1,6 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/I2-AdLge)
 [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=23203136)
+
 # Lab 1: O Núcleo do Nexus — Arquitetura e Consistência
 
 ## 1. Sumário da Atividade
@@ -11,7 +12,6 @@ Neste laboratório você deverá incrementar um sistema de gestão de tarefas co
 3. **Implementação Consistente** – blindagem do modelo a partir do uso de exceções para validação de regras de negócio.
 4. **Expansão do Ecossistema** – criação de `Project`, relatórios com Streams e automação do `LogProcessor` para novos comandos.
 5. **Avaliação** – critérios de qualidade, métricas e penalidades que nortearão a correção.
-
 
 ## 2. O que é o Nexus?
 
@@ -69,6 +69,7 @@ O objeto `User` é a fundação da responsabilidade no sistema. Você deve garan
 * **Integridade de Identidade**: `username` não pode ser nulo, vazio ou composto apenas por espaços.
 * **Validação de E-mail**: O e-mail deve seguir o formato padrão `usuario@dominio.com`. Você deve implementar uma verificação (seja via `String.contains()` ou Expressões Regulares) que garanta a presença do caractere `@` e de um endereço válido.
 * **Exemplo de Implementação Obrigatória**:
+
 ```java
 if (username == null || username.isBlank()) {
     throw new IllegalArgumentException("Username não pode ser vazio.");
@@ -76,7 +77,6 @@ if (username == null || username.isBlank()) {
 this.username = username;
 
 ```
-
 
 * **Carga de Trabalho**: O método `calculateWorkload()` deve filtrar dinamicamente a lista de tarefas para contar apenas aquelas que estão com status `IN_PROGRESS` e sob a posse deste usuário.
 
@@ -173,9 +173,9 @@ O trabalho é em dupla (que deve ser trocada no próximo laboratório). A nota f
 
 ## Tabela de Penalidades (Redutores de Nota)
 
-| Violação | Penalidade |
-| --- | --- |
-| **Bypass de Validação**: Permitir uma tarefa `DONE` que esteja `BLOCKED`. | -2.0 Pontos |
-| **Vazamento de Referência**: Retornar a lista original de tarefas em vez de uma cópia imutável. | -1.0 Ponto |
-| **Instabilidade**: O programa "quebra" (crash) ao ler uma linha inválida no log. | -2.0 Pontos |
-| **Identidade Violada**: Existência de um método `setId()` na classe `Task`. | -1.5 Pontos |
+| Violação                                                                                               | Penalidade  |
+| -------------------------------------------------------------------------------------------------------- | ----------- |
+| **Bypass de Validação**: Permitir uma tarefa `DONE` que esteja `BLOCKED`.                    | -2.0 Pontos |
+| **Vazamento de Referência**: Retornar a lista original de tarefas em vez de uma cópia imutável. | -1.0 Ponto  |
+| **Instabilidade**: O programa "quebra" (crash) ao ler uma linha inválida no log.                  | -2.0 Pontos |
+| **Identidade Violada**: Existência de um método `setId()` na classe `Task`.                  | -1.5 Pontos |
