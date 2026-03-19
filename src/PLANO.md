@@ -5,7 +5,7 @@
   }
   this.username = username;
 * [ ] Email deve seguir o formato "usuario@dominio.com";
-* [ ] calculateWorkload() deve mostrar apenas tarefas in progresse e do usuario;
+* [x] calculateWorkload() deve mostrar apenas tarefas in progresse e do usuario;
 * [ ] Nao permitir que algum metodo/fundao modifique o id;
 * [ ] Nao permitir que algum metodo/funcao mude a deadline;
 * [ ] Checar se existe um user atribuido a tarefa antes de processa-la como in progress else NexusValidationException;

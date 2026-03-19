@@ -1,4 +1,5 @@
 package com.nexus.model;
+import java.util.List
 
 public class User {
     private final String username;
@@ -20,7 +21,22 @@ public class User {
         return username;
     }
 
-    public long calculateWorkload() {
-        return 0; 
+    public long calculateWorkload(Workspace workS) {
+        t = workS.getTasks();
+        run = true;
+        i = 0, len = 0;
+        Task cur = t[i];
+        while (run) {
+            if (cur.owner.consultUsername(username).equals(this.consultUsername(username)) && cur.status == TaskStatus.IN_PROGRESS) {
+                len++;
+            }
+                try {
+                    i++
+                    cur = t[i];
+                }
+                catch(exception e) {
+                }
+        }
+        return len; 
     }
-}
+
