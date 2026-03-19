@@ -1,16 +1,16 @@
-* [ ] Garantir que o Username nao seja Nulo ou composto so de espacos;
+* [X] Garantir que o Username nao seja Nulo ou composto so de espacos;
 
   if (username == null || username.isBlank()) {
   throw new IllegalArgumentException("Username não pode ser vazio.");
   }
   this.username = username;
-* [ ] Email deve seguir o formato "usuario@dominio.com";
+* [X] Email deve seguir o formato "usuario@dominio.com";
 * [ ] calculateWorkload() deve mostrar apenas tarefas in progresse e do usuario;
 * [ ] Nao permitir que algum metodo/fundao modifique o id;
 * [ ] Nao permitir que algum metodo/funcao mude a deadline;
-* [ ] Checar se existe um user atribuido a tarefa antes de processa-la como in progress else NexusValidationException;
-* [ ] Ver se uma tarefa nao esta blocked antes de defini-la como done;
-* [ ] Sempre que alguma transifcao de tarefeas for violada, incrementar contados;
+* [X] Checar se existe um user atribuido a tarefa antes de processa-la como in progress else NexusValidationException;
+* [X] Ver se uma tarefa nao esta blocked antes de defini-la como done;
+* [X] Sempre que alguma transifcao de tarefeas for violada, incrementar contados;
 * [ ] Criar uma classe Project em "com.nexus.model", que funcionara como a nova unidade de agrupamento do sistema = portifolio;
 
   - Atributos:
@@ -20,7 +20,6 @@
     -Cada task deve ter um campo "estimatedEffort";
 
     -O project dvee ter um addTask(task t), que valide se a soma das horas estimadas de cada tarefa + nova nao excede o totalBudget do projeto. Else NexusValidationException;
-
 * [ ] Gerar relatorios usando a Stream API:
 
 - [ ] Metodo que retorna os 3 usuarios que possuem maior numero de tarefas feitas;

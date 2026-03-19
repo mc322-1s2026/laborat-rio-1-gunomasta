@@ -1,6 +1,6 @@
 package com.nexus.model;
-
 import java.time.LocalDate;
+import com.nexus.exception.NexusValidationException;
 
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
@@ -24,15 +24,23 @@ public class Task {
         
         // Ação do Aluno:
         totalTasksCreated++; 
+
     }
 
     /**
      * Move a tarefa para IN_PROGRESS.
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
-    public void moveToInProgress(User user) {
+    public void moveToInProgress(User user) throws Exception{
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
+        if (!this.owner.consultUsername().equals(user.consultUsername()) || this.status.equals(TaskStatus.BLOCKED)){
+            // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
+            totalValidationErrors++;
+            throw new NexusValidationException("Nao existe usuario atribuido a tarefa em questao");
+        } else {
+            this.status = TaskStatus.IN_PROGRESS;
+            activeWorkload++;
+        }
     }
 
     /**
@@ -41,6 +49,13 @@ public class Task {
      */
     public void markAsDone() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload (decrementar)
+        if (this.status.equals(TaskStatus.BLOCKED)){
+            totalValidationErrors++;
+            throw new NexusValidationException("Nao pode mexer em uma tarefa bloqueada");
+        } else {
+            this.status = TaskStatus.DONE;
+            activeWorkload--;
+        }
     }
 
     public void setBlocked(boolean blocked) {

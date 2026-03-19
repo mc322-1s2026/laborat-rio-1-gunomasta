@@ -124,12 +124,17 @@ O `LogProcessor` original era limitado. Você deve refatorar o método de proces
 
 Você deve implementar o suporte aos seguintes comandos:
 
-1. **`CREATE_USER;username;email`**: Instancia um novo usuário (valide o e-mail!).
-2. **`CREATE_PROJECT;projectName;budgetHours`**: Instancia um novo projeto.
-3. **`CREATE_TASK;taskName;deadline;effort;projectName`**: Cria uma tarefa, define seu esforço e a vincula automaticamente ao projeto mencionado.
-4. **`ASSIGN_USER;taskId;username`**: Localiza a tarefa pelo ID e o usuário pelo username, realizando a atribuição (Owner).
-5. **`CHANGE_STATUS;taskId;newStatus`**: Tenta mover a tarefa para um novo estado (ex: `IN_PROGRESS`, `DONE`, `BLOCKED`). **Atenção**: Este comando deve disparar todas as validações de máquina de estado criadas na Seção 4.
-6. **`REPORT_STATUS`**: Aciona a impressão dos relatórios analíticos (Streams) no console.
+**`CREATE_USER;username;email`**: Instancia um novo usuário (valide o e-mail!).
+
+**`CREATE_PROJECT;projectName;budgetHours`**: Instancia um novo projeto.
+
+**`CREATE_TASK;taskName;deadline;effort;projectName`**: Cria uma tarefa, define seu esforço e a vincula automaticamente ao projeto mencionado.
+
+**`ASSIGN_USER;taskId;username`**: Localiza a tarefa pelo ID e o usuário pelo username, realizando a atribuição (Owner).
+
+* [ ] **`CHANGE_STATUS;taskId;newStatus`**: Tenta mover a tarefa para um novo estado (ex: `IN_PROGRESS`, `DONE`, `BLOCKED`). **Atenção**: Este comando deve disparar todas as validações de máquina de estado criadas na Seção 4.
+
+**`REPORT_STATUS`**: Aciona a impressão dos relatórios analíticos (Streams) no console.
 
 ### D. Desafio de Robustez
 
