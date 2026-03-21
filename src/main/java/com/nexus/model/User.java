@@ -1,5 +1,8 @@
 package com.nexus.model;
-import java.util.List
+import com.nexus.model.User;
+import com.nexus.model.Task;
+import java.util.List;
+import com.nexus.service.Workspace;
 
 public class User {
     private final String username;
@@ -9,11 +12,11 @@ public class User {
         if (username == null || username.isBlank()) {
             throw new IllegalArgumentException("Username não pode ser vazio.");
         }
-        if (!email.matches("*" + "@" + "*" + ".com")) {
-            throw new IllegalArgumentException("O email nao segue a formatacao desejada.");        
+        if (!email.matches(".+@.+.com")) {
+            throw new IllegalArgumentException("O email não segue a formatação desejada.");        
         }
         this.username = username;
-        this.email = email;
+        this.email = email.toLowerCase();
     }
 
     public String consultEmail() {
@@ -25,21 +28,22 @@ public class User {
     }
 
     public long calculateWorkload(Workspace workS) {
-        t = workS.getTasks();
-        run = true;
-        i = 0, len = 0;
-        Task cur = t[i];
+        List<Task> t = workS.getTasks();
+        boolean run = true;
+        int i = 0, len = 0;
+        Task cur = t.get(i);
         while (run) {
-            if (cur.owner.consultUsername(username).equals(this.consultUsername(username)) && cur.status == TaskStatus.IN_PROGRESS) {
+            if (cur.getOwner().consultUsername().equals(this.consultUsername()) && cur.getStatus() == TaskStatus.IN_PROGRESS) {
                 len++;
             }
                 try {
-                    i++
-                    cur = t[i];
+                    i++;
+                    cur = t.get(i);
                 }
-                catch(exception e) {
+                catch(Exception e) {
                 }
         }
         return len; 
     }
+}
 

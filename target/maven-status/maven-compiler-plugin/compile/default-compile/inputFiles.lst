@@ -1,7 +1,8 @@
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/Main.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/exception/NexusValidationException.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/model/Task.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/model/TaskStatus.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/model/User.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/service/LogProcessor.java
-/home/yanetti/Desktop/javaeba/laborat-rio-1-gunomasta/src/main/java/com/nexus/service/Workspace.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\exception\NexusValidationException.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\Main.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\model\Project.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\model\Task.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\model\TaskStatus.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\model\User.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\service\LogProcessor.java
+C:\MC322\lab01\laborat-rio-1-gunomasta\src\main\java\com\nexus\service\Workspace.java

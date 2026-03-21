@@ -53,6 +53,9 @@ public class Main {
                     String file = (logChoice.equals("1")) ? "log_v1.txt" : "log_v2.txt";
                     logProcessor.processLog(file, workspace, users);
                 }
+                case "5" -> {
+                    
+                }
                 default -> System.out.println("\n[!] Opção inválida.");
             }
         }
@@ -72,6 +75,7 @@ public class Main {
             2. Adicionar Tarefa
             3. Listar Todas as Tarefas
             4. Processar Log de Ações
+            5. Checar a carga de trabalho de um usuário
             0. Sair
             Escolha uma opção:\s""");
     }
