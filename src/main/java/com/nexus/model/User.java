@@ -27,23 +27,10 @@ public class User {
         return username;
     }
 
-    public long calculateWorkload(Workspace workS) {
-        List<Task> t = workS.getTasks();
-        boolean run = true;
-        int i = 0, len = 0;
-        Task cur = t.get(i);
-        while (run) {
-            if (cur.getOwner().consultUsername().equals(this.consultUsername()) && cur.getStatus() == TaskStatus.IN_PROGRESS) {
-                len++;
-            }
-                try {
-                    i++;
-                    cur = t.get(i);
-                }
-                catch(Exception e) {
-                }
-        }
-        return len; 
+    public int calculateWorkload(Workspace w) {
+        List<Task> tasks = w.getTasks();
+        int res = tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.IN_PROGRESS) && m.getOwner().equals(this)).count();
+        return res;
     }
 }
 

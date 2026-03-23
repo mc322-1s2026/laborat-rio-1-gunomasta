@@ -38,6 +38,34 @@ public class LogProcessor {
                                 workspace.addTask(t);
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                             }
+                            case "CREATE_PROJECT" -> {
+                                Project pj = new Project(p[1], p[2]);
+                                System.out.println("[LOG] Projeto criado: " + p[1]);
+                            }
+                            case "ASSIGN_USER" -> {
+                                List<Task> tasksList = workspace.getTasks(); // ta errado
+                                Task t = taskList.stream().filter(m -> m.id.equals(int(p[1]))).findFirst();
+                                if (t.equals(null)){throw new NexusValidationException("Nao existe task com esse id");}
+                                User u = users.stream().filter(m -> m.username.equals(username)).findFirst();
+                                if (u.equals(null)) {throw new NexusValidationException("Nao existe user com esse username")}
+                                t.owner = u;
+                                System.out.println("[LOG] A tarefa com id" + p[1] + "fora designada
+                                ao usuario com nome" + [2]);
+                            }
+                            case "CHANGE_STATUS" -> {
+                                List<Task> tasksList = workspace.getTasks(); // ta errado
+                                Task t = taskList.stream().filter(m -> m.id.equals(int(p[1]))).findFirst();
+                                if (t.equals(null)){throw new NexusValidationException("Nao existe task com esse id");}
+                                switch(p[2]) {
+                                    case "IN_PROGRESS" -> {t.markAsInProgress();}
+                                    case "DONE" -> {t.markAsDone()}
+                                    case "BLOCKED" -> {t.markAsBlocked(1)}
+                                }
+                            }
+                            case "REPORT_STATUS" -> {
+                                // printa os relatorios analiticos streams no console
+                                // coletar usuarios com mais de 10 tarefas em todo....
+                            }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
                     } catch (NexusValidationException e) {

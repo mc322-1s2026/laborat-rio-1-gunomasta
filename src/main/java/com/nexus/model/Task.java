@@ -5,7 +5,6 @@ import com.nexus.exception.NexusValidationException;
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
     public static int totalTasksCreated = 0;
-    public static int totalValidationErrors = 0;
     public static int activeWorkload = 0;
 
     private static int nextId = 1;
@@ -25,18 +24,15 @@ public class Task {
         
         // Ação do Aluno:
         totalTasksCreated++; 
-
     }
 
     /**
      * Move a tarefa para IN_PROGRESS.
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
-    public void moveToInProgress(User user) throws Exception{
+    public void markAsInProgress() throws Exception{
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        if (!this.owner.consultUsername().equals(user.consultUsername()) || this.status.equals(TaskStatus.BLOCKED)){
-            // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
-            totalValidationErrors++;
+        if (getOwner().equals(null) || getStatus().equals(TaskStatus.BLOCKED)){
             throw new NexusValidationException("Nao existe usuario atribuido a tarefa em questao");
         } else {
             this.status = TaskStatus.IN_PROGRESS;
@@ -50,8 +46,7 @@ public class Task {
      */
     public void markAsDone() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload (decrementar)
-        if (this.status.equals(TaskStatus.BLOCKED)){
-            totalValidationErrors++;
+        if (getStatus().equals(TaskStatus.BLOCKED)){
             throw new NexusValidationException("Nao pode mexer em uma tarefa bloqueada");
         } else {
             this.status = TaskStatus.DONE;
@@ -59,7 +54,8 @@ public class Task {
         }
     }
 
-    public void setBlocked(boolean blocked) {
+    // Se for adicionar uma task recem criada cria com 0, mudar status seta como 1
+    public void markAsBlocked(boolean blocked) {
         if (blocked) {
             this.status = TaskStatus.BLOCKED;
         } else {
