@@ -57,13 +57,13 @@ public class LogProcessor {
                                 || p[3].isBlank() || p[3] == null || p[4].isBlank() || p[4] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
-                                Project pj = workspace.stream().filter(m -> m.consultProjectName().equals
-                                ((String)p[4])).findFirst();
-                                if (pj == null) {
+                                Optional<Project> pj = workspace.getProjects().stream().filter(m -> m.consultProjectName().equals(p[4])).findFirst();
+                                if (!pj.isPresent()) {
                                     throw new NexusValidationException("Nao existe project com esse nome");
                                 }
-                                Task t = new Task(p[1], LocalDate.parse(p[2], p[3], pj));
+                                Task t = new Task(p[1], LocalDate.parse(p[2]), Integer.parseInt(p[3]));
                                 workspace.addTask(t);
+                                pj.get().addTask(t);
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                                 break;
                             }
@@ -71,13 +71,14 @@ public class LogProcessor {
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
-                                Project name = workspace.stream().filter(m -> m.consultProjectName().equals(
-                                (String)p[1])).findFirst();
-                                if (name != null) {
-                                    throw new NexusValidationException("Ja existe um projeto com esse nome");
-                                } else [
+                                Optional<Project> tmp = workspace.getProjects().stream().filter(m -> m.consultProjectName().equals(
+                                (String) p[1])).findFirst();
+                                if (tmp.isPresent()) {
+                                    throw new NexusValidationException("Já existe um projeto com esse nome.");
+                                } else {
                                     Project pj = new Project(p[1], Integer.parseInt(p[2]));
-                                ]
+                                    workspace.addProject(pj);
+                                }
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                                 break;
                             }
