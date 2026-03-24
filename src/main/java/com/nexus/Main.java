@@ -71,6 +71,14 @@ public class Main {
                         usuario.calculateWorkload(workspace);
                     }
                 }
+                case "6" -> {
+                    System.out.println("Digite o nome do projeto: ");
+                    String pName = scanner.nextLine();
+                    System.err.println("Digite o tempo total estimado de horas do projeto: ");
+                    int total = Integer.parseInt(scanner.nextLine());
+                    Project p = new Project(pName, total);
+                    workspace.addProject(p);
+                }
                 default -> System.out.println("\n[!] Opção inválida.");
             }
         }
@@ -91,6 +99,7 @@ public class Main {
             3. Listar Todas as Tarefas
             4. Processar Log de Ações
             5. Checar a carga de trabalho de um usuário
+            6. Criar projeto
             0. Sair
             Escolha uma opção:\s""");
     }
@@ -131,6 +140,7 @@ public class Main {
             System.out.print("Projeto ao qual a tarefa pertence: ");
             String projectName = scanner.nextLine();
             Project project;
+            if (workspace.getProjects().isEmpty()) {throw new NexusValidationException("Não existe nenhum projeto. ");}
             Optional<Project> _project = workspace.getProjects().stream().filter(m -> m.consultProjectName().equals(projectName)).findFirst();
             if(_project.isPresent())
                 project = _project.get();
@@ -141,10 +151,19 @@ public class Main {
                 throw new IllegalArgumentException();
             }
             Task newTask = new Task(title, deadline, time, project);
+            try {
+                project.addTask(newTask);
+            } catch (NexusValidationException e) {
+                System.err.println("Tarefa não pode ser criada por ultrapassar o número máximo de horas do projeto.");
+                return;
+            }
             workspace.addTask(newTask);
             System.out.println("[OK] Tarefa adicionada ao backlog.");
         } catch (DateTimeParseException e) {
             System.err.println("[ERRO] Formato de data inválido. Use AAAA-MM-DD.");
+        } catch (NexusValidationException e) {
+            System.err.println("[ERRO] Nome de projeto inválido.");
+
         }
     }
 

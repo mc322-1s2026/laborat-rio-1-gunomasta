@@ -57,7 +57,7 @@ public class Project{
      * @throws NexusValidationException Se o esforço for inválido ou estourar o orçamento do projeto.
      */
     public void addTask(Task t){
-        if (t.getestimatedEffort() <= 0 ||(this.getTotalHours() + t.getestimatedEffort() > this.budgetHours)) {
+        if (t.getestimatedEffort() <= 0 || ((this.getTotalHours() + t.getestimatedEffort()) > this.consultBudgetHours())) {
             throw new NexusValidationException("Nao fora possivel adicionar essa tarefa no projeto designado");
         } else {
             this.taskList.add(t);
