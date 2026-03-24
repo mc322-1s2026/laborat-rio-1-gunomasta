@@ -18,6 +18,7 @@ public class Project{
         this.projectName = projectName;
         this.budgetHours = budgetHours;
         this.taskList = new ArrayList<Task>();
+        
     }
 
     public String consultProjectName() {

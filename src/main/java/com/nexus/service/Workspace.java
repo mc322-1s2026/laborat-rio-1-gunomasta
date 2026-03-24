@@ -57,12 +57,10 @@ public class Workspace {
     public void report_Status() {
         // gera relatorios usando a Stream API
         System.out.println("Relatorio Geral Rapido:");
-        System.out.println("Os tres usuarios com maior numero de tarefas marcadas
-        como concluidas sao:");
+        System.out.println("Os tres usuarios com maior numero de tarefas marcada como concluidas são:");
         TopPerformers().stream().forEach(System.out::println);
         System.out.println("Todos os usuarios cuja carga de trabalho atual ultrapassam 10 tarefas sao:");
         OverloadedUsers().stream().forEach(System.out::println);
-        System.out.println("O status com maior numero de tarefas no sistema, sem contar
-        com o DONE e:" + GlobalBottlenecks());
+        System.out.println("O status com maior numero de tarefas no sistema, sem contar com o DONE e:" + GlobalBottlenecks());
     }
 }
