@@ -5,38 +5,37 @@ import com.nexus.exception.NexusValidationException;
 public class Task {
     // Métricas Globais (Alunos implementam a lógica de incremento/decremento)
     public static int totalTasksCreated = 0;
-    public static int totalValidationErrors = 0;
     public static int activeWorkload = 0;
 
     private static int nextId = 1;
 
-    private int id;
-    private LocalDate deadline; // Imutável após o nascimento
+    private final int id;
+    private final LocalDate deadline; // Imutável após o nascimento
     private String title;
     private TaskStatus status;
     private User owner;
     private int estimatedEffort;
+    private Project project;
 
-    public Task(String title, LocalDate deadline) {
+    public Task(String title, LocalDate deadline, int estimatedEffort, Project project) {
         this.id = nextId++;
         this.deadline = deadline;
         this.title = title;
         this.status = TaskStatus.TO_DO;
+        this.estimatedEffort = estimatedEffort;
+        this.Project = project;
         
         // Ação do Aluno:
         totalTasksCreated++; 
-
     }
 
     /**
      * Move a tarefa para IN_PROGRESS.
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
-    public void moveToInProgress(User user) throws Exception{
+    public void markAsInProgress() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        if (!this.owner.consultUsername().equals(user.consultUsername()) || this.status.equals(TaskStatus.BLOCKED)){
-            // Se falhar, incrementar totalValidationErrors e lançar NexusValidationException
-            totalValidationErrors++;
+        if (getOwner() == null || getStatus().equals(TaskStatus.BLOCKED)){
             throw new NexusValidationException("Nao existe usuario atribuido a tarefa em questao");
         } else {
             this.status = TaskStatus.IN_PROGRESS;
@@ -50,8 +49,7 @@ public class Task {
      */
     public void markAsDone() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload (decrementar)
-        if (this.status.equals(TaskStatus.BLOCKED)){
-            totalValidationErrors++;
+        if (getStatus().equals(TaskStatus.BLOCKED)){
             throw new NexusValidationException("Nao pode mexer em uma tarefa bloqueada");
         } else {
             this.status = TaskStatus.DONE;
@@ -59,8 +57,9 @@ public class Task {
         }
     }
 
-    public void setBlocked(boolean blocked) {
-        if (blocked) {
+    // Se for adicionar uma task recem criada cria com 0, mudar status seta como 1
+    public void markAsBlocked(boolean blocked) {
+        if (blocked && !this.status.equals(TaskStatus.DONE)) {
             this.status = TaskStatus.BLOCKED;
         } else {
             this.status = TaskStatus.TO_DO; // Simplificação para o Lab
@@ -74,4 +73,9 @@ public class Task {
     public LocalDate getDeadline() { return deadline; }
     public User getOwner() { return owner; }
     public int getestimatedEffort() {return estimatedEffort; }
+    public Project getProject() {return project; }
+
+    public void setOwner(User user) {
+        this.owner = user;
+    }
 }
