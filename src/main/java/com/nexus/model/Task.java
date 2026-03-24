@@ -15,12 +15,15 @@ public class Task {
     private TaskStatus status;
     private User owner;
     private int estimatedEffort;
+    private Project project;
 
-    public Task(String title, LocalDate deadline) {
+    public Task(String title, LocalDate deadline, int estimatedEffort, Project project) {
         this.id = nextId++;
         this.deadline = deadline;
         this.title = title;
         this.status = TaskStatus.TO_DO;
+        this.estimatedEffort = estimatedEffort;
+        this.Project = project;
         
         // Ação do Aluno:
         totalTasksCreated++; 
@@ -56,7 +59,7 @@ public class Task {
 
     // Se for adicionar uma task recem criada cria com 0, mudar status seta como 1
     public void markAsBlocked(boolean blocked) {
-        if (blocked) {
+        if (blocked && !this.status.equals(TaskStatus.DONE)) {
             this.status = TaskStatus.BLOCKED;
         } else {
             this.status = TaskStatus.TO_DO; // Simplificação para o Lab
@@ -70,6 +73,7 @@ public class Task {
     public LocalDate getDeadline() { return deadline; }
     public User getOwner() { return owner; }
     public int getestimatedEffort() {return estimatedEffort; }
+    public Project getProject() {return project; }
 
     public void setOwner(User user) {
         this.owner = user;
