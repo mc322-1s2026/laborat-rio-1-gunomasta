@@ -111,8 +111,10 @@ public class Main {
             String title = scanner.nextLine();
             System.out.print("Prazo (AAAA-MM-DD): ");
             LocalDate deadline = LocalDate.parse(scanner.nextLine());
+            System.out.print("Digite o tempo estimado da tarefa: ");
+            int time = Integer.parseInt(scanner.nextLine());
 
-            Task newTask = new Task(title, deadline);
+            Task newTask = new Task(title, deadline, time);
             workspace.addTask(newTask);
             System.out.println("[OK] Tarefa adicionada ao backlog.");
         } catch (DateTimeParseException e) {
