@@ -2,6 +2,7 @@ package com.nexus.model;
 import java.util.List;
 import com.nexus.exception.NexusValidationException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Representa um portfólio de projeto no sistema, agrupando tarefas e gerenciando o orçamento 
@@ -35,7 +36,7 @@ public class Project{
 
     public String consultProjectName() { return projectName; }
     public int consultBudgetHours() { return budgetHours; }
-    public List<Task> consultTaskList() { return taskList; }
+    public List<Task> consultTaskList() { return Collections.unmodifiableList(taskList); }
 
     /**
      * Calcula o esforço total estimado de todas as tarefas atualmente vinculadas ao projeto.
@@ -72,6 +73,6 @@ public class Project{
         List<Task> tasks = consultTaskList();
         int totalTasks = tasks.size();
         int doneTasks = (int) tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.DONE)).count();
-        return doneTasks/totalTasks;
+        return totalTasks == 0 ? 0f :(float) doneTasks/totalTasks;
     }
 }

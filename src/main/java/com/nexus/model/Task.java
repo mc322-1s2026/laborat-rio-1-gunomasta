@@ -19,6 +19,7 @@ public class Task {
     private TaskStatus status;
     private User owner;
     private int estimatedEffort;
+    private Project project;
 
     /**
      * Constrói uma nova tarefa. O ID e o deadline (prazo) definidos no nascimento são imutáveis 
@@ -35,6 +36,7 @@ public class Task {
         this.title = title;
         this.status = TaskStatus.TO_DO;
         this.estimatedEffort = estimatedEffort;
+        this.project = project;
         
         // Ação do Aluno:
         totalTasksCreated++; 
@@ -78,7 +80,7 @@ public class Task {
      * @param blocked true para bloquear a tarefa, false para retornar ao status padrão.
      */
     public void markAsBlocked(boolean blocked) {
-        if (blocked && !this.status.equals(TaskStatus.DONE) && getOwner() != null) {
+        if (blocked && !this.status.equals(TaskStatus.DONE)) {
             this.status = TaskStatus.BLOCKED;
         } else {
             this.status = TaskStatus.TO_DO; // Simplificação para o Lab
@@ -92,6 +94,7 @@ public class Task {
     public LocalDate getDeadline() { return deadline; }
     public User getOwner() { return owner; }
     public int getestimatedEffort() {return estimatedEffort; }
+    public Project getProject() {return project; }
     // public Project getProject() {return project; }
 
     /**

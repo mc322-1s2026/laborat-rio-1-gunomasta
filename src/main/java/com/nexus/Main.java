@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.nexus.exception.NexusValidationException;
 import com.nexus.model.Task;
 import com.nexus.model.User;
+import com.nexus.model.Project;
 import com.nexus.service.LogProcessor;
 import com.nexus.service.Workspace;
 
@@ -56,8 +58,13 @@ public class Main {
                 case "5" -> {
                     System.out.println("Digite o nome do usuario:");
                     String userName = scanner.nextLine();
-                    User usuario = users.stream().filter(m -> m.consultUsername()
-                    .equals(userName)).findFirst();
+                    Optional <User> _usuario = users.stream().filter(m -> m.consultUsername().equals(userName)).findFirst();
+                    User usuario;
+                    if(_usuario.isPresent())
+                        usuario = _usuario.get();
+                    else {
+                        throw new NexusValidationException("Usuário não existe.");
+                    }
                     if (userName.isBlank() || userName == null) {
                         throw new IllegalArgumentException();
                     } else {
@@ -123,10 +130,14 @@ public class Main {
             int time = Integer.parseInt(scanner.nextLine());
             System.out.print("Projeto ao qual a tarefa pertence: ");
             String projectName = scanner.nextLine();
-            Project project = workspace.getProject().stream().filter(m -> m.consultProjectName()
-            .equals(projectName)).findFirst();
-            if (title.isBlank() || title == null || deadline == null || time.isBlank() ||
-            time == null || projectName.isBlank() || projectName == null) {
+            Project project;
+            Optional<Project> _project = workspace.getProjects().stream().filter(m -> m.consultProjectName().equals(projectName)).findFirst();
+            if(_project.isPresent())
+                project = _project.get();
+            else
+                throw new NexusValidationException("Projeto não existe. ");
+            
+            if (title.isBlank() || title == null || deadline == null || projectName.isBlank() || projectName == null) {
                 throw new IllegalArgumentException();
             }
             Task newTask = new Task(title, deadline, time, project);

@@ -45,6 +45,9 @@ public class LogProcessor {
                     try {
                         switch (action) {
                             case "CREATE_USER" -> {
+                                if (p.length < 2) 
+                                    break;
+
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
@@ -53,6 +56,8 @@ public class LogProcessor {
                                 break;
                             }
                             case "CREATE_TASK" -> {
+                                if (p.length < 4) 
+                                    break;
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null
                                 || p[3].isBlank() || p[3] == null || p[4].isBlank() || p[4] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
@@ -61,13 +66,15 @@ public class LogProcessor {
                                 if (!pj.isPresent()) {
                                     throw new NexusValidationException("Nao existe project com esse nome");
                                 }
-                                Task t = new Task(p[1], LocalDate.parse(p[2]), Integer.parseInt(p[3]));
+                                Task t = new Task(p[1], LocalDate.parse(p[2]), Integer.parseInt(p[3]), pj.get());
                                 workspace.addTask(t);
                                 pj.get().addTask(t);
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                                 break;
                             }
                             case "CREATE_PROJECT" -> {
+                                if (p.length < 2) 
+                                    break;
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
@@ -83,6 +90,8 @@ public class LogProcessor {
                                 break;
                             }
                             case "ASSIGN_USER" -> {
+                                if (p.length < 2) 
+                                    break;
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
@@ -102,6 +111,8 @@ public class LogProcessor {
                                 break;
                             }
                             case "CHANGE_STATUS" -> {
+                                if (p.length < 2) 
+                                    break;
                                 if (p[1].isBlank() || p[1] == null || p[2].isBlank() || p[2] == null){
                                     throw new IllegalArgumentException("Parametros incorretos.");
                                 }
@@ -136,11 +147,11 @@ public class LogProcessor {
                         }
                     } catch (NexusValidationException e) {
                         System.err.println("[ERRO DE REGRAS] Falha no comando '" + line + "': " + e.getMessage());
-                    }
+                    } catch (Exception e) {}
                 }
             }
         } catch (IOException e) {
             System.err.println("[ERRO FATAL] " + e.getMessage());
-        }
+        }   catch (Exception e) {}
     }
 }
