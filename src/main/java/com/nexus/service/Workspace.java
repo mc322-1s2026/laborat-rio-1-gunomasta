@@ -61,10 +61,11 @@ public class Workspace {
      * * @return Uma lista com os 3 usuários que possuem o maior número absoluto de tarefas concluídas (DONE).
      */
     public List<User> TopPerformers() {
-        List<User> ul = getTasks().stream().filter(m -> m.getStatus().equals(TaskStatus.DONE))
-        .collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet().stream()
-        .sorted((n,m) -> m.getValue().compareTo(n.getValue())).limit(3).map(j -> j.getKey()).toList();
-        return ul;
+        List<User> userList = getTasks().stream().filter(task -> task.getStatus().equals(TaskStatus.DONE) && 
+        task.getOwner() != null).collect(Collectors.groupingBy(Task::getOwner, Collectors.counting()))
+        .entrySet().stream().sorted((task1,task2) -> task2.getValue().compareTo(task1.getValue())).limit(3)
+        .map(dict_tupla -> dict_tupla.getKey()).toList();
+        return userList;
     }
 
     /**
@@ -72,10 +73,10 @@ public class Workspace {
      * * @return Uma lista de usuários cuja carga atual de tarefas IN_PROGRESS ultrapassa 10.
      */
     public List<User> OverloadedUsers() {
-        List<User> ul = getTasks().stream().filter(m -> m.getStatus().equals(TaskStatus.IN_PROGRESS))
-        .collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet().stream()
-        .filter(j -> j.getValue() > 10).map(j -> j.getKey()).toList();
-        return ul;
+        List<User> userList = getTasks().stream().filter(task -> task.getStatus().equals(TaskStatus.IN_PROGRESS) &&
+        task.getOwner() != null).collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet()
+        .stream().filter(dict_tupla -> dict_tupla.getValue() > 10).map(dict_tupla -> dict_tupla.getKey()).toList();
+        return userList;
     }
 
     /**
@@ -83,10 +84,10 @@ public class Workspace {
      * * @return O tipo de status (exceto DONE) que possui o maior número de tarefas associadas.
      */
     public Optional<TaskStatus> GlobalBottlenecks() {
-        Optional<TaskStatus> ts = getTasks().stream().filter(m -> !m.getStatus().equals(TaskStatus.DONE))
+        Optional<TaskStatus> _task = getTasks().stream().filter(task -> !task.getStatus().equals(TaskStatus.DONE))
         .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting())).entrySet().stream()
-        .sorted((n,m) -> m.getValue().compareTo(n.getValue())).map(j -> j.getKey()).findFirst();
-        return ts;
+        .sorted((task1,task2) -> task2.getValue().compareTo(task1.getValue())).map(dict_tupla -> dict_tupla.getKey()).findFirst();
+        return _task;
     }
 
     /**

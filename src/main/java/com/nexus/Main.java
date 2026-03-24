@@ -54,7 +54,15 @@ public class Main {
                     logProcessor.processLog(file, workspace, users);
                 }
                 case "5" -> {
-                    
+                    System.out.println("Digite o nome do usuario:");
+                    String userName = scanner.nextLine();
+                    User usuario = users.stream().filter(m -> m.consultUsername()
+                    .equals(userName)).findFirst();
+                    if (userName.isBlank() || userName == null) {
+                        throw new IllegalArgumentException();
+                    } else {
+                        usuario.calculateWorkload(workspace);
+                    }
                 }
                 default -> System.out.println("\n[!] Opção inválida.");
             }
@@ -113,8 +121,15 @@ public class Main {
             LocalDate deadline = LocalDate.parse(scanner.nextLine());
             System.out.print("Digite o tempo estimado da tarefa: ");
             int time = Integer.parseInt(scanner.nextLine());
-
-            Task newTask = new Task(title, deadline, time);
+            System.out.print("Projeto ao qual a tarefa pertence: ");
+            String projectName = scanner.nextLine();
+            Project project = workspace.getProject().stream().filter(m -> m.consultProjectName()
+            .equals(projectName)).findFirst();
+            if (title.isBlank() || title == null || deadline == null || time.isBlank() ||
+            time == null || projectName.isBlank() || projectName == null) {
+                throw new IllegalArgumentException();
+            }
+            Task newTask = new Task(title, deadline, time, project);
             workspace.addTask(newTask);
             System.out.println("[OK] Tarefa adicionada ao backlog.");
         } catch (DateTimeParseException e) {

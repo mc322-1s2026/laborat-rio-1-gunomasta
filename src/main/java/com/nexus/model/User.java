@@ -42,8 +42,13 @@ public class User {
      */
     public int calculateWorkload(Workspace w) {
         List<Task> tasks = w.getTasks();
-        int res = (int) tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.IN_PROGRESS) && m.getOwner().equals(this)).count();
+        int res = (int) tasks.stream().filter(m -> m.getOwner() != null && m.getStatus().equals(TaskStatus.IN_PROGRESS) && m.getOwner().equals(this)).count();
         return res;
+    }
+
+    @Override
+    public String toString() {
+        return this.username;
     }
 }
 
