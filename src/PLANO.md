@@ -21,7 +21,7 @@
     -Cada task deve ter um campo "estimatedEffort";
 
     -O project dvee ter um addTask(task t), que valide se a soma das horas estimadas de cada tarefa + nova nao excede o totalBudget do projeto. Else NexusValidationException;
-* [ ] Gerar relatorios usando a Stream API;
+* [X] Gerar relatorios usando a Stream API;
 
 - [X] Metodo que retorna os 3 usuarios que possuem maior numero de tarefas feitas;
 - [X] Lista usuarios com mais de 10 tarefas in_progress;
@@ -39,4 +39,4 @@ Você deve implementar o suporte aos seguintes comandos:
 3. [X] **`CREATE_TASK;taskName;deadline;effort;projectName`**: Cria uma tarefa, define seu esforço e a vincula automaticamente ao projeto mencionado.
 4. [X] **`ASSIGN_USER;taskId;username`**: Localiza a tarefa pelo ID e o usuário pelo username, realizando a atribuição (Owner).
 5. [X] **`CHANGE_STATUS;taskId;newStatus`**: Tenta mover a tarefa para um novo estado (ex: `IN_PROGRESS`, `DONE`, `BLOCKED`). **Atenção**: Este comando deve disparar todas as validações de máquina de estado criadas na Seção 4.
-6. [ ] **`REPORT_STATUS`**: Aciona a impressão dos relatórios analíticos (Streams) no console.
+6. [X] **`REPORT_STATUS`**: Aciona a impressão dos relatórios analíticos (Streams) no console.

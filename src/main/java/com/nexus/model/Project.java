@@ -38,18 +38,18 @@ public class Project{
         return aux;
     }
 
-    public float getConclusionPercentage() {
-        List<Task> tasks = consultTaskList();
-        int totalTasks = tasks.size();
-        int doneTasks = (int) tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.DONE)).count();
-        return doneTasks/totalTasks;
-    }
-
     public void addTask(Task t){
         if (t.getestimatedEffort() <= 0 ||(this.getTotalHours() + t.getestimatedEffort() > this.budgetHours)) {
             throw new NexusValidationException("Nao fora possivel adicionar essa tarefa no projeto designado");
         } else {
             this.taskList.add(t);
         }
-    }   
+    }
+
+    public float ProjectHealth() {
+        List<Task> tasks = consultTaskList();
+        int totalTasks = tasks.size();
+        int doneTasks = (int) tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.DONE)).count();
+        return doneTasks/totalTasks;
+    }
 }

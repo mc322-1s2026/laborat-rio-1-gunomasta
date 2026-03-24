@@ -73,6 +73,7 @@ public class LogProcessor {
                             case "REPORT_STATUS" -> {
                                 // printa os relatorios analiticos streams no console
                                 // coletar usuarios com mais de 10 tarefas em todo....
+                                workspace.report_Status();
                             }
                             default -> System.err.println("[WARN] Ação desconhecida: " + action);
                         }
