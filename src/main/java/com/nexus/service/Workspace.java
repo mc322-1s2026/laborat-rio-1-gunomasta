@@ -8,54 +8,91 @@ import java.util.Collections;
 // import java.util.stream.*;
 import java.util.stream.Collectors;
 
+/**
+ * Atua como o contêiner principal do sistema Nexus. Armazena a lista global de tarefas 
+ * e projetos, oferecendo métodos de busca, filtragem e análises executivas.
+ */
 public class Workspace {
     private final List<Task> tasks = new ArrayList<>();
     private final List<Project> projects = new ArrayList<>();
 
+    /**
+     * Adiciona uma nova tarefa à lista global do workspace.
+     *
+     * @param task A tarefa a ser adicionada.
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
+    /**
+     * Adiciona um novo projeto à lista global do workspace.
+     *
+     * @param project O projeto a ser adicionado.
+     */
     public void addProject(Project project) {
         projects.add(project);
     }
 
+    /**
+     * Retorna a lista de tarefas contidas no workspace.
+     * Utiliza {@link Collections#unmodifiableList} para garantir o encapsulamento e prevenir 
+     * modificações diretas na lista interna.
+     *
+     * @return Uma visão não modificável da lista de tarefas.
+     */
     public List<Task> getTasks() {
-        // Retorna uma visão não modificável para garantir encapsulamento
         return Collections.unmodifiableList(tasks);
     }
 
+    /**
+     * Retorna a lista de projetos contidos no workspace.
+     * Utiliza {@link Collections#unmodifiableList} para garantir o encapsulamento e prevenir 
+     * modificações diretas na lista interna.
+     *
+     * @return Uma visão não modificável da lista de projetos.
+     */
     public List<Project> getProjects() {
-        // Retorna uma visão não modificável para garantir encapsulamento
         return Collections.unmodifiableList(projects);
     }
 
+    /**
+     * Identifica os usuários com maior produtividade no sistema.
+     * * @return Uma lista com os 3 usuários que possuem o maior número absoluto de tarefas concluídas (DONE).
+     */
     public List<User> TopPerformers() {
-        // retorna os 3 usuarios que possuem maior numero absoluto de tarefas DONE
         List<User> ul = getTasks().stream().filter(m -> m.getStatus().equals(TaskStatus.DONE))
         .collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet().stream()
         .sorted((n,m) -> m.getValue().compareTo(n.getValue())).limit(3).map(j -> j.getKey()).toList();
         return ul;
     }
 
+    /**
+     * Localiza os usuários que estão com carga de trabalho acima do limite saudável.
+     * * @return Uma lista de usuários cuja carga atual de tarefas IN_PROGRESS ultrapassa 10.
+     */
     public List<User> OverloadedUsers() {
-        // retorna uma lista com usuarios com mais de 10 tarefas in progress
         List<User> ul = getTasks().stream().filter(m -> m.getStatus().equals(TaskStatus.IN_PROGRESS))
         .collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet().stream()
         .filter(j -> j.getValue() > 10).map(j -> j.getKey()).toList();
         return ul;
     }
 
+    /**
+     * Analisa a distribuição de status para encontrar os principais bloqueios no fluxo de trabalho.
+     * * @return O tipo de status (exceto DONE) que possui o maior número de tarefas associadas.
+     */
     public Optional<TaskStatus> GlobalBottlenecks() {
-        // retorna o tipo de status com maior numero absoluto de tarefas sem ser o DONE
         Optional<TaskStatus> ts = getTasks().stream().filter(m -> !m.getStatus().equals(TaskStatus.DONE))
         .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting())).entrySet().stream()
         .sorted((n,m) -> m.getValue().compareTo(n.getValue())).map(j -> j.getKey()).findFirst();
         return ts;
     }
 
+    /**
+     * Gera e imprime relatórios analíticos utilizando os métodos de processamento de fluxo (Streams).
+     */
     public void report_Status() {
-        // gera relatorios usando a Stream API
         System.out.println("Relatorio Geral Rapido:");
         System.out.println("Os tres usuarios com maior numero de tarefas marcadas
         como concluidas sao:");

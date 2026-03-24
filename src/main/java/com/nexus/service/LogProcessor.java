@@ -7,8 +7,22 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Ferramenta de utilidade que simula o uso real do sistema processando comandos em lote.
+ * Interpreta arquivos de texto contendo ações e as converte em operações de criação ou alteração 
+ * no workspace e nas entidades do Nexus.
+ */
 public class LogProcessor {
-
+    /**
+     * Lê um arquivo de log linha por linha, separando os comandos e parâmetros, e executa 
+     * as ações correspondentes no sistema. 
+     * Captura exceções do tipo {@link NexusValidationException} para garantir que o processamento 
+     * não seja interrompido caso uma linha específica viole as regras de negócio.
+     *
+     * @param fileName O nome do arquivo de log localizado no classpath.
+     * @param workspace O workspace atual onde projetos e tarefas serão manipulados.
+     * @param users A lista global de usuários do sistema.
+     */
     public void processLog(String fileName, Workspace workspace, List<User> users) {
         try {
             // Busca o arquivo dentro da pasta de recursos do projeto (target/classes)
