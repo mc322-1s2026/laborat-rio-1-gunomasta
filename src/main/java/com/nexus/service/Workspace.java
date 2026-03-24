@@ -3,6 +3,7 @@ package com.nexus.service;
 import com.nexus.model.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Collections;
 // import java.util.stream.*;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class Workspace {
         // retorna os 3 usuarios que possuem maior numero absoluto de tarefas DONE
         List<User> ul = getTasks().stream().filter(m -> m.getStatus().equals(TaskStatus.DONE))
         .collect(Collectors.groupingBy(Task::getOwner, Collectors.counting())).entrySet().stream()
-        .sorted((n,m) -> m.getValue().compareTo(n.getValue())).limit(3).toList();
+        .sorted((n,m) -> m.getValue().compareTo(n.getValue())).limit(3).map(j -> j.getKey()).toList();
         return ul;
     }
 
@@ -35,11 +36,11 @@ public class Workspace {
         return ul;
     }
 
-    public TaskStatus getHighestStatus() {
-        // retorna o tipo de staus com maior numero absoluto de tarefas sem ser o DONE
-        TaskStatus ts = getTasks().stream().filter(m -> !m.getStatus().equals(TaskStatus.DONE))
+    public Optional<TaskStatus> getHighestStatus() {
+        // retorna o tipo de status com maior numero absoluto de tarefas sem ser o DONE
+        Optional<TaskStatus> ts = getTasks().stream().filter(m -> !m.getStatus().equals(TaskStatus.DONE))
         .collect(Collectors.groupingBy(Task::getStatus, Collectors.counting())).entrySet().stream()
-        .filter((n,m) -> m.getValue().compareTo(n.getValue())).findFirst();
+        .sorted((n,m) -> m.getValue().compareTo(n.getValue())).map(j -> j.getKey()).findFirst();
         return ts;
     }
 }

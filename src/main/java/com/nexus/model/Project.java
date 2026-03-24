@@ -1,7 +1,7 @@
 package com.nexus.model;
 import java.util.List;
 import com.nexus.exception.NexusValidationException;
-import java.util.stream.*;
+import java.util.ArrayList;
 
 public class Project{
     private final String projectName;
@@ -13,7 +13,7 @@ public class Project{
             throw new IllegalArgumentException("Nome do projeto não pode ser vazio.");
         }
         if (budgetHours <= 0){
-            throw new IllegalArgumentException("A budget nao pode ser menor ou igual a 0");
+            throw new IllegalArgumentException("A budget não pode ser menor ou igual a 0");
         }
         this.projectName = projectName;
         this.budgetHours = budgetHours;
@@ -24,7 +24,7 @@ public class Project{
         return projectName;
     }
 
-    public String consultBudgetHours() {
+    public int consultBudgetHours() {
         return budgetHours;
     }
 
@@ -34,19 +34,19 @@ public class Project{
 
     public int getTotalHours() {
         List<Task> tasks = consultTaskList();
-        int aux = tasks.streams().mapToInt(m -> m.estimatedEffort).sum();
+        int aux = tasks.stream().mapToInt(m -> m.getestimatedEffort()).sum();
         return aux;
     }
 
     public float getConclusionPercentage() {
         List<Task> tasks = consultTaskList();
         int totalTasks = tasks.size();
-        int doneTasks = tasks.streams().filter(m -> m.status.equals(TaskStatus.DONE).sum());
+        int doneTasks = (int) tasks.stream().filter(m -> m.getStatus().equals(TaskStatus.DONE)).count();
         return doneTasks/totalTasks;
     }
 
-    public addTask(Task t){
-        if (t.estimatedEffort <= 0 ||(this.getTotalHours() + t.estimatedEffort > this.budgetHours)) {
+    public void addTask(Task t){
+        if (t.getestimatedEffort() <= 0 ||(this.getTotalHours() + t.getestimatedEffort() > this.budgetHours)) {
             throw new NexusValidationException("Nao fora possivel adicionar essa tarefa no projeto designado");
         } else {
             this.taskList.add(t);

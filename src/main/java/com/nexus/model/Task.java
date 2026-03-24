@@ -9,8 +9,8 @@ public class Task {
 
     private static int nextId = 1;
 
-    private int id;
-    private LocalDate deadline; // Imutável após o nascimento
+    private final int id;
+    private final LocalDate deadline; // Imutável após o nascimento
     private String title;
     private TaskStatus status;
     private User owner;
@@ -30,9 +30,9 @@ public class Task {
      * Move a tarefa para IN_PROGRESS.
      * Regra: Só é possível se houver um owner atribuído e não estiver BLOCKED.
      */
-    public void markAsInProgress() throws Exception{
+    public void markAsInProgress() {
         // TODO: Implementar lógica de proteção e atualizar activeWorkload
-        if (getOwner().equals(null) || getStatus().equals(TaskStatus.BLOCKED)){
+        if (getOwner() == null || getStatus().equals(TaskStatus.BLOCKED)){
             throw new NexusValidationException("Nao existe usuario atribuido a tarefa em questao");
         } else {
             this.status = TaskStatus.IN_PROGRESS;
@@ -70,4 +70,8 @@ public class Task {
     public LocalDate getDeadline() { return deadline; }
     public User getOwner() { return owner; }
     public int getestimatedEffort() {return estimatedEffort; }
+
+    public void setOwner(User user) {
+        this.owner = user;
+    }
 }

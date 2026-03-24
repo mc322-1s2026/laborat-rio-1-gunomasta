@@ -5,6 +5,7 @@ import com.nexus.exception.NexusValidationException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class LogProcessor {
 
@@ -39,27 +40,34 @@ public class LogProcessor {
                                 System.out.println("[LOG] Tarefa criada: " + p[1]);
                             }
                             case "CREATE_PROJECT" -> {
-                                Project pj = new Project(p[1], p[2]);
+                                Project pj = new Project(p[1], Integer.parseInt(p[2]));
                                 System.out.println("[LOG] Projeto criado: " + p[1]);
                             }
                             case "ASSIGN_USER" -> {
-                                List<Task> tasksList = workspace.getTasks(); // ta errado
-                                Task t = taskList.stream().filter(m -> m.id.equals(int(p[1]))).findFirst();
-                                if (t.equals(null)){throw new NexusValidationException("Nao existe task com esse id");}
-                                User u = users.stream().filter(m -> m.username.equals(username)).findFirst();
-                                if (u.equals(null)) {throw new NexusValidationException("Nao existe user com esse username")}
-                                t.owner = u;
-                                System.out.println("[LOG] A tarefa com id" + p[1] + "fora designada
-                                ao usuario com nome" + [2]);
+                                List<Task> tasksList = workspace.getTasks();
+                                Optional<Task> _t = tasksList.stream().filter(m -> m.getId() == Integer.parseInt(p[1])).findFirst();
+                                User u;
+                                Task t;
+                                if (!_t.isPresent()){throw new NexusValidationException("Nao existe task com esse id");}
+                                else {
+                                    t = _t.get();
+                                }
+                                Optional<User> _u = users.stream().filter(m -> m.consultUsername().equals(p[2])).findFirst();
+                                if (!_u.isPresent()) {throw new NexusValidationException("Nao existe user com esse username");}
+                                else{u = _u.get(); }
+                                t.setOwner(u);
+                                System.out.println("[LOG] A tarefa com id " + p[1] + " fora designada ao usuário com nome " + p[2]);
                             }
                             case "CHANGE_STATUS" -> {
+                                Task t;
                                 List<Task> tasksList = workspace.getTasks(); // ta errado
-                                Task t = taskList.stream().filter(m -> m.id.equals(int(p[1]))).findFirst();
-                                if (t.equals(null)){throw new NexusValidationException("Nao existe task com esse id");}
+                                Optional<Task> _t = tasksList.stream().filter(m -> m.getId() == Integer.parseInt(p[1])).findFirst();
+                                if (!_t.isPresent()){throw new NexusValidationException("Nao existe task com esse id");}
+                                else {t = _t.get();}
                                 switch(p[2]) {
                                     case "IN_PROGRESS" -> {t.markAsInProgress();}
-                                    case "DONE" -> {t.markAsDone()}
-                                    case "BLOCKED" -> {t.markAsBlocked(1)}
+                                    case "DONE" -> {t.markAsDone();}
+                                    case "BLOCKED" -> {t.markAsBlocked(true);}
                                 }
                             }
                             case "REPORT_STATUS" -> {
